@@ -211,7 +211,7 @@ option(FCL_WITH_OCTOMAP "OctoMap library support" ON)
 set(FCL_HAVE_OCTOMAP 0)
 
 if(FCL_WITH_OCTOMAP)
-  find_package(octomap QUIET)
+  find_package(octomap REQUIRED PATHS $ENV{OCTOMAP_DIR})
 
   # Older versions of octomap-config.cmake may not define OCTOMAP_VERSION so
   # fall back to pkg-config
@@ -295,6 +295,7 @@ configure_file(
 add_custom_target(uninstall
   "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/CMakeModules/cmake_uninstall.cmake")
 
+if (NOT WIN32)
 set(FCL_BUILD_TESTS "DEFAULT" CACHE INTERNAL "Deprecated; use BUILD_TESTING instead.")
 
 if(NOT FCL_BUILD_TESTS STREQUAL "DEFAULT")
@@ -311,7 +312,7 @@ endif()
 if(BUILD_TESTING AND NOT FCL_HIDE_ALL_SYMBOLS)
     add_subdirectory(test)
 endif()
-
+endif()
 #===============================================================================
 # API documentation using Doxygen
 # References:

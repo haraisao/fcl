@@ -95,7 +95,11 @@ class DoSimplex2Test : public ::testing::Test {
     // tests, that it's still configured to be a 2-simplex.
     line_.last = 1;
     // Reset dir_ so that tests are independent with a recognizable magic value.
+  #ifdef WIN32
+    dir_ = {{(ccd_real_t)-1.23, (ccd_real_t)4.56, (ccd_real_t)7.89}};
+  #else
     dir_ = {{-1.23, 4.56, 7.89}};
+  #endif
     return ::testing::AssertionSuccess();
   }
 

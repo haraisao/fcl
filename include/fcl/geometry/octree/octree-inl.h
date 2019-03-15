@@ -104,7 +104,30 @@ typename OcTree<S>::OcTreeNode* OcTree<S>::getRoot() const
 {
   return tree->getRoot();
 }
+#ifdef WIN32
+//==============================================================================
+template <typename S>
+bool OcTree<S>::isNodeOccupied(const octomap::OcTreeNode* node) const
+{
+  // return tree->isNodeOccupied(node);
+  return node->getOccupancy() >= occupancy_threshold;
+}
 
+//==============================================================================
+template <typename S>
+bool OcTree<S>::isNodeFree(const octomap::OcTreeNode* node) const
+{
+  // return false; // default no definitely free node
+  return node->getOccupancy() <= free_threshold;
+}
+
+//==============================================================================
+template <typename S>
+bool OcTree<S>::isNodeUncertain(const octomap::OcTreeNode* node) const
+{
+  return (!isNodeOccupied(node)) && (!isNodeFree(node));
+}
+#else
 //==============================================================================
 template <typename S>
 bool OcTree<S>::isNodeOccupied(const OcTree<S>::OcTreeNode* node) const
@@ -127,7 +150,7 @@ bool OcTree<S>::isNodeUncertain(const OcTree<S>::OcTreeNode* node) const
 {
   return (!isNodeOccupied(node)) && (!isNodeFree(node));
 }
-
+#endif
 //==============================================================================
 template <typename S>
 S OcTree<S>::getOccupancyThres() const

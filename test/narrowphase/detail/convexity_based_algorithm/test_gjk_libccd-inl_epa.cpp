@@ -38,7 +38,10 @@
  * computes the penetration depth and the points with the deepest penetration
  * between two convex objects.
  */
-
+#ifdef WIN32
+#define _USE_MATH_DEFINES
+#include <math.h>
+#endif
 #include "fcl/narrowphase/detail/convexity_based_algorithm/gjk_libccd-inl.h"
 
 #include <array>
