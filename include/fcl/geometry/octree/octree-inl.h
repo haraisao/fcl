@@ -205,6 +205,42 @@ typename OcTree<S>::OcTreeNode* OcTree<S>::getNodeChild(
 #endif
 }
 
+#ifdef WIN32
+//==============================================================================
+template <typename S>
+const typename octomap::OcTreeNode* OcTree<S>::getNodeChild(
+    const typename octomap::OcTreeNode* node, unsigned int childIdx) const
+{
+#if OCTOMAP_VERSION_AT_LEAST(1,8,0)
+  return tree->getNodeChild(node, childIdx);
+#else
+  return node->getChild(childIdx);
+#endif
+}
+
+//==============================================================================
+template <typename S>
+bool OcTree<S>::nodeChildExists(
+    const octomap::OcTreeNode* node, unsigned int childIdx) const
+{
+#if OCTOMAP_VERSION_AT_LEAST(1,8,0)
+  return tree->nodeChildExists(node, childIdx);
+#else
+  return node->childExists(childIdx);
+#endif
+}
+
+//==============================================================================
+template <typename S>
+bool OcTree<S>::nodeHasChildren(const octomap::OcTreeNode* node) const
+{
+#if OCTOMAP_VERSION_AT_LEAST(1,8,0)
+  return tree->nodeHasChildren(node);
+#else
+  return node->hasChildren();
+#endif
+}
+#else
 //==============================================================================
 template <typename S>
 const typename OcTree<S>::OcTreeNode* OcTree<S>::getNodeChild(
@@ -239,7 +275,7 @@ bool OcTree<S>::nodeHasChildren(const OcTree<S>::OcTreeNode* node) const
   return node->hasChildren();
 #endif
 }
-
+#endif
 //==============================================================================
 template <typename S>
 OBJECT_TYPE OcTree<S>::getObjectType() const
