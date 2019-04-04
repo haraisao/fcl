@@ -137,6 +137,10 @@ endif()
 find_package(PkgConfig QUIET)
 set(PKG_CONFIG_USE_CMAKE_PREFIX_PATH ON)
 
+if(DEFINED ENV{LOCAL_LIBRARY_PATH})
+  set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH};$ENV{LOCAL_LIBRARY_PATH})
+endif()
+
 #===============================================================================
 # Find required dependency Eigen3 (>= 3.0.5)
 #
